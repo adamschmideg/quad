@@ -3,15 +3,17 @@
 
 import time
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from watchdog.events import PatternMatchingEventHandler
 
-class MyHandler(FileSystemEventHandler):
+class MyHandler(PatternMatchingEventHandler):
+
     def on_any_event(self, event):
         print "Got it: %s" % event
 
 
 if __name__ == "__main__":
-    event_handler = MyHandler()
+    # TODO: read .gitignore (~/.gitignore too)
+    event_handler = MyHandler(ignore_patterns=['*/.git', '*/.git/*'])
     observer = Observer()
     observer.schedule(event_handler, path='.', recursive=True)
     observer.start()
