@@ -9,12 +9,14 @@ from watchdog.events import PatternMatchingEventHandler
 class MyHandler(PatternMatchingEventHandler):
 
     def on_any_event(self, event):
-        subprocess.call(['git', 'wip'])
+        error_code = subprocess.call(['hg', 'commit', '-q', '-m', 'WIP'])
+        print 'Changed, so commited with return code %s' % error_code
 
 
 if __name__ == "__main__":
     # TODO: read .gitignore (~/.gitignore too)
-    event_handler = MyHandler(ignore_patterns=['*/.git', '*/.git/*'])
+    ignore_patterns = ['*/.git', '*/.git/*', '*/.hg', '*/.hg/*']
+    event_handler = MyHandler(ignore_patterns=ignore_patterns)
     observer = Observer()
     observer.schedule(event_handler, path='.', recursive=True)
     observer.start()
