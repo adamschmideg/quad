@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # See http://stackoverflow.com/a/18599427/380587
 
+import subprocess
 import time
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
@@ -8,7 +9,7 @@ from watchdog.events import PatternMatchingEventHandler
 class MyHandler(PatternMatchingEventHandler):
 
     def on_any_event(self, event):
-        print "Got it: %s" % event
+        subprocess.call(['git', 'wip'])
 
 
 if __name__ == "__main__":
