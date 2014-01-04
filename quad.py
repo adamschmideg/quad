@@ -1,6 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # See http://stackoverflow.com/a/18599427/380587
 
+import argparse
+import os
 import subprocess
 import time
 from watchdog.observers import Observer
@@ -9,16 +11,21 @@ from watchdog.events import PatternMatchingEventHandler
 class MyHandler(PatternMatchingEventHandler):
 
     def on_any_event(self, event):
+        # TODO: call hg commands directly from python
         error_code = subprocess.call(['hg', 'commit', '-q', '-m', 'WIP'])
         print 'Changed, so commited with return code %s' % error_code
 
 
-if __name__ == "__main__":
+def init():
+    pass
+
+def monitor(directories):
     # TODO: read .gitignore (~/.gitignore too)
     ignore_patterns = ['*/.git', '*/.git/*', '*/.hg', '*/.hg/*']
     event_handler = MyHandler(ignore_patterns=ignore_patterns)
     observer = Observer()
-    observer.schedule(event_handler, path='.', recursive=True)
+    for d in directories:
+        observer.schedule(event_handler, path=d, recursive=True)
     observer.start()
 
     try:
@@ -27,3 +34,17 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+def readable_dir(prospective_dir):
+  if not os.path.isdir(prospective_dir):
+    raise Exception("readable_dir:{0} is not a valid path".format(prospective_dir))
+  if os.access(prospective_dir, os.R_OK):
+    return prospective_dir
+  else:
+    raise Exception("readable_dir:{0} is not a readable dir".format(prospective_dir))
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Gimme a directory to monitor')
+    parser.add_argument('directories', type=readable_dir, nargs='+', metavar='dir')
+    args = parser.parse_args()
+    monitor(args.directories)
