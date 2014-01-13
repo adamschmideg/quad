@@ -1,6 +1,6 @@
 This is a list of what is written or I'm going to write
 
-  - [Installation](#Installation)
+  - [Installation](..#install)
   - Usage
   - Similar projects
   - Further plans
