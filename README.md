@@ -1,6 +1,6 @@
 # quad
 
-Quantified developer
+__Quantified Developer__.
 
 ## Install
 
