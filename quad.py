@@ -8,12 +8,20 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+def repo_root_dir(file):
+    return file
+
+def commit(directory):
+    # TODO: call hg commands directly from python
+    retcode = subprocess.call(['hg', 'commit', '-q', '-m', 'WIP'])
+    if retcode:
+        print 'Error commiting'
+
 class MyHandler(PatternMatchingEventHandler):
 
     def on_any_event(self, event):
-        # TODO: call hg commands directly from python
-        error_code = subprocess.call(['hg', 'commit', '-q', '-m', 'WIP'])
-        print 'Changed, so commited with return code %s' % error_code
+        directory = repo_root_dir(event.src_path)
+        commit(directory)
 
 
 def init():
