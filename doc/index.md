@@ -37,3 +37,17 @@ read what, it's the same people who can read the regular repo.  There is
 however the risk that the company will have access to my private work
 stats which may be uncomfortable for some developers.  (See Ethical
 issues in Mining software repositories.)
+
+## Similar projects
+
+  - http://www.codeivate.com
+  - http://wakati.me
+
+## Tools for Mining software repositories
+
+  - See http://stackoverflow.com/a/1829302/380587
+  - https://bitbucket.org/sealuzh/tools-changedistiller/wiki/Home
+  - https://github.com/yinwang0/psydiff
+  - https://code.google.com/p/harmony/
+  - http://www.monperrus.net/martin/tree-differencing (it basically
+    mentions the above projects)
