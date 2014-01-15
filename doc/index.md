@@ -51,3 +51,43 @@ issues in Mining software repositories.)
   - https://code.google.com/p/harmony/
   - http://www.monperrus.net/martin/tree-differencing (it basically
     mentions the above projects)
+
+# How to store wip changes
+
+The obvious idea was to use version control for small wip changes, too.
+I could use the same git as I use normally, but work an a different
+branch, switching back and forth between wip and normal branches.  The
+other approach that seemed easier to implement was to use another
+version control system, namely mercurial for wip changes.  It had some
+issues I haven't resolved yet.  It created new heads sometimes for some
+unknown reason; it also had a problem "waiting for lock on working
+directory".
+
+So I'm thinking now if I really want to use a version control for wip
+changes.  What I'm interested in is actually a large table for each
+project where a record contains
+
+  - a timestamp
+  - the path of the file that was changed
+  - a diff
+
+Well, I actually need the file content before and after the change and
+if I have only the diff without the original content, I can't calculate
+structural changes from a diff.  It can be usable though if I have the
+file content before the very first diff.  If I have this table of diffs
+from the beginning of time, then all files were empty.  If I start
+to store changes later, I'll need a starting status of all files.  It
+boils then down to have an initial state of files and this table of
+diffs.
+
+What can I do when I switch branches?  It seems the table contains
+mostly records described above and some rows that just point to a hash
+of the normal repository.  Every time there is a branch switch, there
+has to be a hash in the table which is actually a shorthand to have the
+actual content of all files.
+
+This table model has assumes furthermore that changes are saved so
+frequently that it's reasonable to have only one record for a timestamp.
+It's possible technically to have more records for the same timestamp,
+showing that more files were changes at the same moment, like renaming a
+variable in multiple files.
