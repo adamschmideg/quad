@@ -91,3 +91,45 @@ frequently that it's reasonable to have only one record for a timestamp.
 It's possible technically to have more records for the same timestamp,
 showing that more files were changes at the same moment, like renaming a
 variable in multiple files.
+
+# Hierarchy of code importance
+
+Developers waste most of the code they write.  There is a hierarchy of
+code
+
+  - Production code (version controlled, shared with peers)
+  - Dev code (saved in local temp folders)
+  - Throw-away code (living in the history until it gets too old)
+  - Ad-hoc code written at the shell/REPL
+
+The history of programming from this perspective is
+
+  - Store only released code, maybe code of a few milestones (past)
+  - Store meaningful changes (present)
+  - Store any changes (future?)
+
+What developers consider a "meaningful change" depends on a number of
+factors.  It includes objective factors, like it's preferred to commit
+only code that compiles, even better that runs all tests.  Continuous
+integration tools aim to automatize these expectations.  I personally
+prefer to commit every 30-60 minutes, that's a meaningful piece of work
+for me.
+
+Why is it important to store changes?  Older versions are rarely used,
+version control is invisible most of the time, it's almost an autosave
+feature we're not aware of.  Until we have to roll back to an earlier
+version or in case there's a conflict between the changes of two team
+members.
+
+But reading code and changes in them have another important aspect.
+That's the way we learn, our coding skills improve.  It mostly works on
+an unconcious level, though.  I write a few lines of code, try it out,
+see what happens, and carry on with the task at hand.  The other day, I
+just walked past someone's monitor and saw this Python snippet,
+
+    [] == False
+    if []:
+      print 'truthy'
+    else:
+      print 'FALSEY'
+
